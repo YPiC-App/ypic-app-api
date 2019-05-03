@@ -1,7 +1,8 @@
 const admin = require("firebase-admin");
 const functions = require("firebase-functions");
 
-const SetUserOnCreate = require("./modules/set-user-on-create");
+const setUserOnCreate = require("./modules/set-user-on-create");
+const user = require("./modules/user");
 
 admin.initializeApp();
 
@@ -9,4 +10,6 @@ const context = { admin };
 
 exports.setUserDataOnCreate = functions.auth
   .user()
-  .onCreate(SetUserOnCreate(context));
+  .onCreate(setUserOnCreate(context));
+
+exports.user = functions.https.onRequest(user(context));
